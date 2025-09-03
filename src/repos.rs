@@ -92,7 +92,10 @@ pub fn find_repos(config: &Config) -> Result<HashMap<String, Vec<Session>>> {
 
 #[cfg(test)]
 mod test {
-    use crate::repos::{find_repos, Config};
+    use crate::{
+        configs::SearchDirectory,
+        repos::{find_repos, Config},
+    };
 
     #[test]
     fn perf_find_repos() {
@@ -105,8 +108,11 @@ mod test {
             switch_filter_unknown: None,
             session_sort_order: None,
             excluded_dirs: None,
-            search_paths: Some(vec!["$HOME/personal".to_string()]),
-            search_dirs: None,
+            search_paths: None,
+            search_dirs: Some(vec![SearchDirectory::new(
+                ["$HOME", "personal"].iter().collect(),
+                10,
+            )]),
             sessions: None,
             picker_colors: None,
             shortcuts: None,
