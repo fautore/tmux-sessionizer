@@ -90,6 +90,38 @@ pub fn find_repos(config: &Config) -> Result<HashMap<String, Vec<Session>>> {
     Ok(repos)
 }
 
+#[cfg(test)]
+mod test {
+    use crate::repos::{find_repos, Config};
+
+    #[test]
+    fn perf_find_repos() {
+        let start_time = std::time::Instant::now();
+        _ = find_repos(&Config {
+            default_session: None,
+            display_full_path: None,
+            search_submodules: None,
+            recursive_submodules: None,
+            switch_filter_unknown: None,
+            session_sort_order: None,
+            excluded_dirs: None,
+            search_paths: Some(vec!["$HOME/personal".to_string()]),
+            search_dirs: None,
+            sessions: None,
+            picker_colors: None,
+            shortcuts: None,
+            bookmarks: None,
+            session_configs: None,
+            marks: None,
+            clone_repo_switch: None,
+        });
+        let end_time = std::time::Instant::now();
+        let duration = end_time - start_time;
+
+        println!("Function execution time: {:?}", duration);
+    }
+}
+
 pub fn find_submodules(
     submodules: Vec<Submodule>,
     parent_name: &String,
